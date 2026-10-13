@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог Шамотного Кирпича</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; color: #333; }
+        h1 { color: #d35400; border-bottom: 2px solid #d35400; padding-bottom: 10px; }
+        .brick-card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid #e67e22; display: flex; gap: 20px; align-items: center; }
+        .brick-info { flex: 1; }
+        .brick-img { max-width: 200px; max-height: 150px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
+        .price { font-weight: bold; color: #27ae60; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+
+    <h1>🔥 Каталог Огнеупорного Шамотного Кирпича</h1>
+    <p>Добро пожаловать! Ниже представлены доступные позиции из нашей базы данных:</p>
+
+    {% for brick in bricks %}
+        <div class="brick-card">
+
+            <!-- Если у кирпича есть загруженное фото, показываем его -->
+            {% if brick.image %}
+                <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="brick-img">
+            {% else %}
+                <!-- Если фото нет, можно показать заглушку или ничего -->
+                <div style="width: 200px; height: 150px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 6px; color: #aaa;">Нет фото</div>
+            {% endif %}
+
+            <div class="brick-info">
+                <h2>{{ brick.name }}</h2>
+                <p><strong>Размер:</strong> {{ brick.size }}</p>
+                <p><strong>Описание:</strong> {{ brick.description }}</p>
+                <p class="price">Цена: {{ brick.price }} руб./шт.</p>
+            </div>
+
+        </div>
+    {% empty %}
+        <p>Кирпичей пока нет в базе данных. Добавьте их через админку!</p>
+    {% endfor %}
+
+</body>
+</html>
