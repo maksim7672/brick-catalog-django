@@ -12,3 +12,13 @@ class Brick(models.Model):
 
     def __str__(self):
         return self.name  # Чтобы в админке красиво писалось имя кирпича, а не "Brick object"
+
+
+class Order(models.Model):
+    brick = models.ForeignKey(Brick, on_delete=models.CASCADE, verbose_name="Товар")
+    name = models.CharField(max_length=100, verbose_name="Имя покупателя")
+    phone = models.CharField(max_length=20, verbose_name="Телефон")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата заказа")
+
+    def __str__(self):
+        return f"Заказ на {self.brick.name} от {self.name}"
