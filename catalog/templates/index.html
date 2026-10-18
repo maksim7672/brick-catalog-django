@@ -1,44 +1,56 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Каталог Шамотного Кирпича</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; color: #333; }
-        h1 { color: #d35400; border-bottom: 2px solid #d35400; padding-bottom: 10px; }
-        .brick-card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid #e67e22; display: flex; gap: 20px; align-items: center; }
-        .brick-info { flex: 1; }
-        .brick-img { max-width: 200px; max-height: 150px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
-        .price { font-weight: bold; color: #27ae60; font-size: 1.2em; }
-    </style>
+    <title>СмирОМ — Каталог</title>
+    <link rel="stylesheet" href="{% static 'catalog/style.css' %}?v=3">
 </head>
 <body>
 
-    <h1>🔥 Каталог Огнеупорного Шамотного Кирпича</h1>
-    <p>Добро пожаловать! Ниже представлены доступные позиции из нашей базы данных:</p>
-
-    {% for brick in bricks %}
-        <div class="brick-card">
-
-            <!-- Если у кирпича есть загруженное фото, показываем его -->
-            {% if brick.image %}
-                <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="brick-img">
-            {% else %}
-                <!-- Если фото нет, можно показать заглушку или ничего -->
-                <div style="width: 200px; height: 150px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 6px; color: #aaa;">Нет фото</div>
-            {% endif %}
-
-            <div class="brick-info">
-                <h2>{{ brick.name }}</h2>
-                <p><strong>Размер:</strong> {{ brick.size }}</p>
-                <p><strong>Описание:</strong> {{ brick.description }}</p>
-                <p class="price">Цена: {{ brick.price }} руб./шт.</p>
-            </div>
-
+    <header class="main-header">
+        <div class="logo"><h1>🔥 СмирОМ</h1></div>
+         <form action="{% url 'search' %}" method="get" class="search-form">
+        <input type="text" name="q" placeholder="Поиск по каталогу (например, ШБ-5)" aria-label="Поиск товаров">
+        <button type="submit">Найти</button>
+    </form>
+        <div class="header-contacts">
+            <span>📍 ул. Производственная, 12</span>
+            <a href="tel:+79991112233">📞 +7 (999) 111-22-33</a>
         </div>
-    {% empty %}
-        <p>Кирпичей пока нет в базе данных. Добавьте их через админку!</p>
-    {% endfor %}
+    </header>
+
+    <main class="container">
+        <h2 class="page-title">Наш Шамотный Кирпич</h2>
+
+        <!-- Сетка для 3 карточек -->
+        <div class="brick-grid">
+            {% for brick in bricks %}
+                <div class="brick-card">
+                    <!-- Ссылка-обертка: клик по фото или названию ведет на страницу товара -->
+                    <a href="{% url 'brick_detail' brick.id %}" class="brick-link">
+                        {% if brick.image %}
+                            <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="brick-img">
+                        {% else %}
+                            <div style="height: 200px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #94a3b8;">Нет фото</div>
+                        {% endif %}
+
+                        <div class="brick-card-info">
+                            <h3>{{ brick.name }}</h3>
+                            <div class="price">{{ brick.price }} руб./шт.</div>
+                        </div>
+                    </a>
+                    <div style="padding: 0 20px 20px 20px;">
+                        <a href="{% url 'brick_detail' brick.id %}" class="buy-btn">Подробнее / Купить 🛒</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Кирпичей пока нет.</p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer class="main-footer"><p>© 2026 ШамотОгнеупор.</p></footer>
 
 </body>
 </html>

@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>СмирОМ — Каталог</title>
+    <link rel="stylesheet" href="{% static 'catalog/style.css' %}?v=3">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo"><h1>🔥 СмирОМ</h1></div>
+         <form action="{% url 'search' %}" method="get" class="search-form">
+        <input type="text" name="q" placeholder="Поиск по каталогу (например, ШБ-5)" aria-label="Поиск товаров">
+        <button type="submit">Найти</button>
+    </form>
+        <div class="header-contacts">
+            <span>📍 ул. Производственная, 12</span>
+            <a href="tel:+79991112233">📞 +7 (999) 111-22-33</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 class="page-title">Наш Шамотный Кирпич</h2>
+
+        <div class="brick-grid">
+            {% for brick in results %}
+                <div class="brick-card">
+                    <a href="{% url 'brick_detail' brick.id %}" class="brick-link">
+
+                        {% if brick.image %}
+                            <img src="{{ brick.image.url }}" alt="{{ brick.name }}">
+                        {% else %}
+                            <div style="height: 200px; background: #e2e8f0; display: flex; align-items: center; justify-content: center;">
+                                Нет фото
+                            </div>
+                        {% endif %}
+
+                        <div class="brick-card-info">
+                            <h3>{{ brick.name }}</h3>
+                            <div class="price">{{ brick.price }} руб./шт.</div>
+                        </div>
+                    </a>
+
+                    <div style="padding: 0 20px 20px 20px;">
+                        <a href="{% url 'brick_detail' brick.id %}" class="buy-btn">Подробнее / Купить 🛒</a>
+                    </div>
+                </div>
+            {% empty %}
+                <!-- Этот блок сработает автоматически, если результатов нет (поиск пуст или товаров нет) -->
+                <div class="no-results">
+                    <h2>По вашему запросу "{{ query }}" ничего не найдено</h2>
+                    <p>Попробуйте изменить формулировку или посмотрите весь каталог.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer class="main-footer"><p>© 2026 ШамотОгнеупор.</p></footer>
+
+</body>
+</html>

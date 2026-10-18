@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ brick.name }} — СмирОМ</title>
+    <link rel="stylesheet" href="{% static 'catalog/style.css' %}">
+</head>
+<body>
+
+<main class="container" style="max-width: 1100px; margin: 15px auto; padding: 0 15px;">
+
+    <!-- Ссылка теперь всегда сверху, на самом видном месте -->
+    <div style="margin-bottom: 15px;">
+        <a href="/" class="back-link" style="margin-top: 0 !important; font-weight: bold; color: #e67e22;">← Вернуться в каталог</a>
+    </div>
+
+    <div class="detail-wrapper">
+
+        <!-- ЛЕВАЯ КОЛОНКА (Картинка и Описание) -->
+        <div class="detail-left">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="detail-img" style="max-height: 220px; width: auto; border-radius: 8px;">
+            </div>
+
+            <h2 class="detail-title" style="font-size: 1.6rem; margin-bottom: 5px;">Шамотный кирпич {{ brick.name }}</h2>
+
+            <div class="detail-meta" style="padding: 10px; margin-bottom: 10px;">
+                <p style="margin: 0 0 5px 0;"><strong>Размер:</strong> 230х114х65 мм</p>
+                <div class="detail-price" style="font-size: 1.1rem;">Цена: <span>{{ brick.price }} руб./шт.</span></div>
+            </div>
+
+            <div class="detail-description">
+                <h3 style="font-size: 1.1rem; margin-bottom: 5px;">Описание товара:</h3>
+                <p style="font-size: 0.9rem; line-height: 1.5; margin: 0;">{{ brick.description }}</p>
+            </div>
+        </div>
+
+        <!-- ПРАВАЯ КОЛОНКА (Калькулятор и Заказ) -->
+        <div class="detail-right">
+            <div class="calc-block">
+                <h3 style="font-size: 1rem; margin-top: 0; margin-bottom: 10px;">🧮 Расчет и быстрый заказ</h3>
+
+                <form method="POST" action="{% url 'create_order' brick.id %}">
+                    {% csrf_token %}
+
+                    <p style="color: #666; font-size: 0.85rem; margin-bottom: 5px;">Количество кирпичей:</p>
+                    <input type="number" id="brick-count" name="quantity" class="calc-input" placeholder="Например: 100" min="1" required oninput="calculateMixture()">
+
+                    <div class="calc-result" style="padding: 8px; font-size: 1rem; margin-bottom: 10px;">
+                        Необходимо смеси: <span id="mix-result">0</span> кг.
+                        <input type="hidden" id="mix-weight-hidden" name="mixture_weight" value="0">
+                    </div>
+
+                    <div class="order-fields" style="display: flex; flex-direction: column; gap: 5px;">
+                        <p style="color: #666; font-size: 0.85rem; margin: 0;">Ваше имя:</p>
+                        <input type="text" name="client_name" class="calc-input" placeholder="Иван" required>
+
+                        <p style="color: #666; font-size: 0.85rem; margin: 0;">Телефон:</p>
+                        <input type="tel" name="client_phone" class="calc-input" placeholder="+7 (999) 999-99-99" required>
+                    </div>
+
+                    <button type="submit" class="buy-btn" style="margin-top: 10px; height: 40px; padding: 0;">
+                        🚀 Быстрый заказ
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    function calculateMixture() {
+        const countInput = document.getElementById('brick-count');
+        const resultSpan = document.getElementById('mix-result');
+        const hiddenInput = document.getElementById('mix-weight-hidden');
+
+        // Переводим введенное значение в число
+        const count = parseFloat(countInput.value);
+        const ratePerBrick = 0.35; // Расход смеси на 1 кирпич в кг
+
+        if (count && count > 0) {
+            // Рассчитываем и округляем до 1 знака
+            const totalMixture = (count * ratePerBrick).toFixed(1);
+            resultSpan.innerText = totalMixture;
+            hiddenInput.value = totalMixture;
+        } else {
+            resultSpan.innerText = '0';
+            hiddenInput.value = '0';
+        }
+    }
+</script>
+    <footer class="main-footer"><p>© 2026 ШамотОгнеупор.</p></footer>
+
+</body>
+</html>

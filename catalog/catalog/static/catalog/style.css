@@ -1,0 +1,209 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+    background-color: #f5f7fa; color: #333;
+    display: flex; flex-direction: column; min-height: 100vh;
+}
+
+.main-header {
+    background-color: #2c3e50; color: white;
+    padding: 15px 40px; display: flex;
+    justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo h1 { margin: 0; font-size: 1.5rem; color: #e67e22; }
+.header-contacts a { color: white; text-decoration: none; font-weight: bold; margin-left: 15px; }
+
+.container { max-width: 1100px; margin: 40px auto; padding: 0 20px; flex: 1; }
+.page-title { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+
+/* 📐 СЕТКА ИЗ 3 КАРТОЧЕК В РЯД */
+.brick-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 30px !important;
+}
+
+.brick-card {
+    background: white; border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden; display: flex; flex-direction: column;
+    transition: transform 0.2s; border-bottom: 4px solid #e67e22;
+}
+
+.brick-card:hover { transform: translateY(-5px); }
+
+.brick-link { text-decoration: none; color: inherit; }
+
+.brick-img {
+    width: 100%; height: 200px; object-fit: cover;
+}
+
+.brick-card-info { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+.brick-card-info h3 { margin: 0 0 10px 0; color: #2c3e50; }
+.price { font-weight: bold; color: #27ae60; font-size: 1.2em; margin-bottom: 15px; }
+
+
+.buy-btn {
+    background-color: #e67e22; color: white; border: none;
+    padding: 12px; border-radius: 6px; cursor: pointer;
+    font-weight: bold; width: 100%; transition: background 0.2s;
+    text-align: center; text-decoration: none; display: block; box-sizing: border-box;
+}
+.buy-btn:hover { background-color: #d35400; }
+
+/* Главный контейнер карточки товара */
+.detail-wrapper {
+    display: flex !important;
+    gap: 30px !important;
+    background: #ffffff !important;
+    padding: 20px !important; /* Уменьшили внутренние отступы всей страницы */
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
+    align-items: flex-start !important;
+}
+
+/* Левая колонка с описанием */
+.detail-left {
+    flex: 1.3 !important;
+    min-width: 250px !important;
+}
+
+/* Правая колонка с калькулятором (Делаем шире!) */
+.detail-right {
+    flex: 1.1 !important;
+    min-width: 350px !important; /* Гарантирует нормальную ширину полей */
+}
+
+/* Серый блок калькулятора */
+.calc-block {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 15px !important; /* Сжали внутренние отступы */
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+
+/* Компактные поля ввода */
+.calc-input {
+    width: 100% !important;
+    padding: 8px 12px !important; /* Сделали поля тоньше по высоте */
+    font-size: 0.95rem !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    box-sizing: border-box !important;
+    height: 38px !important; /* Уменьшили высоту с 48px до 38px */
+    margin-bottom: 8px !important; /* Уменьшили отступы между полями */
+}
+
+/* Кнопка заказа */
+.buy-btn {
+    width: 100% !important;
+    height: 40px !important; /* Сделали кнопку компактнее */
+    border: none !important;
+    background: #27ae60 !important;
+    color: white !important;
+    border-radius: 6px !important;
+    font-size: 0.95rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+}
+.calc-result {
+    font-weight: bold !important;
+    font-size: 1.1rem !important;
+    color: #e67e22 !important;
+    background: #ffffff !important;
+    padding: 12px !important;
+    border-radius: 6px !important;
+    border: 1px dashed #e67e22 !important;
+    text-align: center !important;
+    margin-bottom: 15px !important;
+}
+
+.buy-btn {
+    width: 100% !important;
+    border: none !important;
+    background: #27ae60 !important;
+    color: white !important;
+    padding: 14px !important;
+    border-radius: 6px !important;
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: background 0.2s !important;
+}
+.buy-btn:hover {
+    background: #219653 !important;
+}
+
+.back-link {
+    display: inline-block !important;
+    color: #7f8c8d !important;
+    text-decoration: none !important;
+    font-size: 0.95rem !important;
+}
+
+/* Принудительная сетка для главного контейнера каталога */
+.container, main {
+    display: block !important;
+}
+
+.brick-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* Жестко приказываем: ровно 3 колонки */
+    gap: 30px !important;
+    width: 100% !important;
+}
+
+@media (max-width: 768px) {
+    .brick-grid {
+        grid-template-columns: 1fr !important; /* На телефонах карточки будут одна под другой */
+    }
+}
+
+/* Стили для формы поиска */
+.search-form {
+    display: flex;
+    flex-grow: 1; /* Заставляет форму занять всё свободное место между лого и контактами */
+    max-width: 400px; /* Ограничивает ширину, чтобы на огромных экранах не было слишком широко */
+    margin: 0 20px; /* Отступы слева и справа */
+}
+
+.search-form input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px; /* Закругление только слева */
+    outline: none;
+    box-sizing: border-box; /* Критически важно: чтобы padding не ломал ширину */
+}
+
+.search-form button {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-left: none; /* Убирает границу между полем и кнопкой */
+    border-radius: 0 4px 4px 0; /* Закругление только справа */
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 15px;
+    }
+    .search-form {
+        margin: 0;
+        max-width: 100%;
+    }
+}
