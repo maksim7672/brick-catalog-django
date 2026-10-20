@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>СмирОМ — Каталог</title>
-    <link rel="stylesheet" href="{% static 'catalog/style.css' %}?v=3">
+    <link rel="stylesheet" href="{% static 'catalog/style.css' %}?v=8">
 </head>
 <body>
 
@@ -21,29 +21,36 @@
     </header>
 
     <main class="container">
-        <h2 class="page-title">Наш Шамотный Кирпич</h2>
+        <h2 class="page-title">Наши товары</h2>
 
         <!-- Сетка для 3 карточек -->
         <div class="brick-grid">
             {% for brick in bricks %}
-                <div class="brick-card">
-                    <!-- Ссылка-обертка: клик по фото или названию ведет на страницу товара -->
-                    <a href="{% url 'brick_detail' brick.id %}" class="brick-link">
-                        {% if brick.image %}
-                            <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="brick-img">
-                        {% else %}
-                            <div style="height: 200px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #94a3b8;">Нет фото</div>
-                        {% endif %}
+        <div class="brick-card" style="border: 2px solid #ffffff !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;">
+            <!-- Ссылка теперь оборачивает ВСЮ карточку (и картинку, и текст) -->
+            <a href="{% url 'brick_detail' brick.id %}" class="brick-link" style="text-decoration: none; color: inherit;">
 
-                        <div class="brick-card-info">
-                            <h3>{{ brick.name }}</h3>
-                            <div class="price">{{ brick.price }} руб./шт.</div>
-                        </div>
-                    </a>
-                    <div style="padding: 0 20px 20px 20px;">
-                        <a href="{% url 'brick_detail' brick.id %}" class="buy-btn">Подробнее / Купить 🛒</a>
+                <!-- Обёртка для картинки с подсказкой -->
+                <div class="img-container">
+                    {% if brick.image %}
+                        <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="brick-img">
+                    {% else %}
+                        <div style="height: 100%; background: #e2e8f0; display: flex; justify-content: center; align-items: center; color: #94a3b8;">Нет фото</div>
+                    {% endif %}
+
+                    <!-- Текст всплывающей подсказки -->
+                    <div class="tooltip-text">Посмотреть описание товара 👁️‍🗨️</div>
+                </div>
+
+                <!-- Блок с инфо (название и цена) переместите сюда, если он был ниже -->
+                <div class="brick-card-info">
+                    <h3>{{ brick.name }}</h3>
+                    <div class="price">{{ brick.price }} руб./шт.
+                        <span class="buy-btn" style="background-color: #2980b9 !important; margin-top: 15px !important;">Подробнее / Купить</span>
                     </div>
                 </div>
+            </a> <!-- Закрываем общую ссылку карточки -->
+        </div>
             {% empty %}
                 <p>Кирпичей пока нет.</p>
             {% endfor %}

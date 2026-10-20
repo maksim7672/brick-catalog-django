@@ -1,3 +1,71 @@
-<h2>🎉 Спасибо за заказ!</h2>
-<p>Менеджер скоро свяжется с вами.</p>
-<a href="/">Вернуться на главную</a>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Успешный заказ</title>
+    <style>
+        body {
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .success-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+        .success-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .success-card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        .success-card p {
+            color: #7f8c8d;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        .back-btn {
+            background-color: #2980b9;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background-color: #2471a3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="success-card">
+        <div class="success-icon">🎉</div>
+
+        <!-- Выводим имя напрямую из переменной контекста client_name -->
+        <h2>Спасибо за заказ, {{ client_name }}!</h2>
+
+        <p>Менеджер уже получил вашу заявку и свяжется с вами в ближайшее время для уточнения деталей.</p>
+
+        <!-- Обычная ссылка на главную страницу каталога -->
+        <a href="/" class="back-btn">Вернуться на главную</a>
+    </div>
+
+</body>
+</html>
