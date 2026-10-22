@@ -3,8 +3,49 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>СмирОМ — Каталог</title>
     <link rel="stylesheet" href="{% static 'catalog/style.css' %}?v=8">
+<style>
+        /* Адаптивность для мобильных телефонов */
+        @media (max-width: 768px) {
+            /* Перестраиваем сетку товаров в одну колонку */
+            .brick-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                padding: 10px !important;
+            }
+
+            /* Растягиваем карточки на всю ширину экрана телефона */
+            .brick-card {
+                max-width: 100% !important;
+                margin: 0 auto !important;
+            }
+
+            /* Делаем картинку повыше на телефонах */
+            .img-container {
+                height: 240px !important;
+            }
+
+            /* На телефонах нет мышки, поэтому скрываем подсказку */
+            .tooltip-text {
+                display: none !important;
+            }
+
+            /* Перестраиваем шапку сайта в одну колонку на мобилках */
+            header, .header-container {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 12px !important;
+                padding: 15px !important;
+            }
+
+            .search-box {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -28,28 +69,31 @@
             {% for brick in bricks %}
         <div class="brick-card" style="border: 2px solid #ffffff !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;">
             <!-- Ссылка теперь оборачивает ВСЮ карточку (и картинку, и текст) -->
-            <a href="{% url 'brick_detail' brick.id %}" class="brick-link" style="text-decoration: none; color: inherit;">
 
-                <!-- Обёртка для картинки с подсказкой -->
-                <div class="img-container">
+                <!-- Обёртка для картинки и подсказки -->
+            <div class="img-container">
+                <!-- 1. Ссылка вокруг картинки ведет на чистое описание -->
+                <a href="{% url 'brick_description' brick.id %}" class="brick-link">
                     {% if brick.image %}
                         <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="brick-img">
                     {% else %}
-                        <div style="height: 100%; background: #e2e8f0; display: flex; justify-content: center; align-items: center; color: #94a3b8;">Нет фото</div>
+                        <div style="height: 100%; background: #e2e8f0; display: flex; justify-content: center; align-items: center;">Нет фото</div>
                     {% endif %}
+                </a>
 
-                    <!-- Текст всплывающей подсказки -->
-                    <div class="tooltip-text">Посмотреть описание товара 👁️‍🗨️</div>
-                </div>
+                <!-- Текст всплывающей подсказки -->
+                <div class="tooltip-text">Посмотреть описание товара 👁️‍🗨️</div>
+            </div>
 
-                <!-- Блок с инфо (название и цена) переместите сюда, если он был ниже -->
-                <div class="brick-card-info">
-                    <h3>{{ brick.name }}</h3>
-                    <div class="price">{{ brick.price }} руб./шт.
-                        <span class="buy-btn" style="background-color: #2980b9 !important; margin-top: 15px !important;">Подробнее / Купить</span>
-                    </div>
-                </div>
-            </a> <!-- Закрываем общую ссылку карточки -->
+            <!-- Блок с инфо (название и цена) -->
+            <div class="brick-card-info">
+                <h3>{{ brick.name }}</h3>
+                <div class="price">{{ brick.price }} руб./шт.</div>
+            </div>
+                <!-- 2. Синяя кнопка теперь сама по себе является ссылкой на калькулятор -->
+                <a href="{% url 'brick_detail' brick.id %}" class="buy-btn" style="background-color: #2980b9 !important; margin-top: 15px !important; text-decoration: none; display: block; text-align: center; color: white;">
+                    Подробнее / Купить
+                </a>
         </div>
             {% empty %}
                 <p>Кирпичей пока нет.</p>

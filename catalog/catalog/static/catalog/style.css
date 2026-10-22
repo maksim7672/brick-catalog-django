@@ -257,3 +257,41 @@ body {
 .img-container:hover .tooltip-text {
     opacity: 1;
 }
+
+/* Специальные стили для экранов мобильных телефонов (шириной до 768 пикселей) */
+@media (max-width: 768px) {
+    /* 1. Перестраиваем сетку товаров в одну колонку */
+    .brick-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 10px !important;
+    }
+
+    /* 2. Делаем контейнер карточки чуть шире и центрируем на экране телефона */
+    .brick-card {
+        max-width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    /* 3. Увеличиваем высоту картинки на телефоне, чтобы она смотрелась пропорционально */
+    .img-container {
+        height: 240px !important;
+    }
+
+    /* 4. Отключаем всплывающие подсказки при наведении, так как на телефонах нет мышки */
+    .tooltip-text {
+        display: none !important;
+    }
+
+    /* 5. Делаем шапку сайта (хедер) адаптивной, чтобы контакты не уползали */
+    header, .header-container {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 10px !important;
+    }
+
+    .search-box {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}

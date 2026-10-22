@@ -26,6 +26,7 @@ urlpatterns = [
     path('search/', views.search_view, name='search'),
     path('brick/<int:brick_id>/', views.brick_detail, name='brick_detail'),
     path('brick/<int:brick_id>/order/', views.create_order_view, name='create_order'),
+    path('brick/<int:brick_id>/description/', views.brick_description_views, name='brick_description'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -62,3 +62,8 @@ def search_view(request):
         results = Brick.objects.all()
 
     return render(request, 'search_results.html', {'results': results, 'query': query})
+
+
+def brick_description_views(request, brick_id):
+    brick = get_object_or_404(Brick, id=brick_id)
+    return render(request, 'brick_description.html', {'brick': brick})
