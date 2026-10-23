@@ -43,7 +43,7 @@
 
                 <form method="POST" action="{% url 'create_order' brick.id %}">
                     {% csrf_token %}
-
+                    <span id="brick-price" style="display: none;">{{ brick.price }}</span>
                     <p style="color: #666; font-size: 0.85rem; margin-bottom: 5px;">Количество кирпичей:</p>
                     <input type="number" id="brick-count" name="quantity" class="calc-input" placeholder="Например: 100" min="1" required oninput="calculateMixture()">
 
@@ -52,6 +52,10 @@
                         <input type="hidden" id="mix-weight-hidden" name="mixture_weight" value="0">
                     </div>
 
+                    <span id="brick-price" style="display: none;">{{ brick.price }}</span>
+                    <div style="padding: 8px; font-size: 1.1rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px;">
+                        Итого к оплате: <span id="total-price">0</span> руб.
+                    </div>
                     <div class="order-fields" style="display: flex; flex-direction: column; gap: 5px;">
                         <p style="color: #666; font-size: 0.85rem; margin: 0;">Ваше имя:</p>
                         <input type="text" name="client_name" class="calc-input" placeholder="Иван" required>
@@ -84,6 +88,23 @@
             // Рассчитываем и округляем до 1 знака
             const totalMixture = (count * ratePerBrick).toFixed(1);
             resultSpan.innerText = totalMixture;
+            if (count && count > 0) {
+        // Рассчитываем и округляем смесь до 1 знака
+        const totalMixture = (count * ratePerBrick).toFixed(1);
+        resultSpan.innerText = totalMixture;
+        hiddenInput.value = totalMixture;
+
+        // --- ВОТ ЭТОТ КУСОК ДЛЯ СТОИМОСТИ МЫ ДОБАВЛЯЕМ СЮДА ---
+        const price = parseFloat(document.getElementById('brick-price').innerText) || 0;
+        document.getElementById('total-price').innerText = (count * price).toFixed(0);
+        // -----------------------------------------------------
+    } else {
+        resultSpan.innerText = '0';
+        hiddenInput.value = '0';
+
+        // И сюда добавляем обнуление стоимости, если поле ввода пустое:
+        document.getElementById('total-price').innerText = '0';
+    }
             hiddenInput.value = totalMixture;
         } else {
             resultSpan.innerText = '0';
