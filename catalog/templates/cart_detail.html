@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ваша корзина</title>
+    <style>
+        body { background-color: #f5f7fa; font-family: sans-serif; padding: 40px; }
+        .cart-card { background: white; max-width: 800px; margin: 0 auto; padding: 30px; border-radius: 12px; border: 2px solid #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .cart-table th, .cart-table td { padding: 12px; text-align: left; border-bottom: 1px solid #edf2f7; }
+        .remove-btn { color: #e74c3c; text-decoration: none; font-weight: bold; }
+        .total-price-block { font-size: 20px; font-weight: bold; text-align: right; margin: 20px 0; color: #2c3e50; }
+        .action-btn { background-color: #2980b9; color: white; text-decoration: none; padding: 12px 25px; border-radius: 6px; font-weight: bold; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="cart-card">
+        <h2>🛒 Ваша корзина</h2>
+        {% if cart %}
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Количество</th>
+                        <th>Цена</th>
+                        <th>Сумма</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        {% with brick=item.brick %}
+                            <tr>
+                               <td>{{ brick.name }}</td>
+                               <td>{{ item.quantity }} шт.</td>
+                               <td>{{ item.price }} руб.</td>
+                               <td>{{ item.total_price }} руб.</td>
+                               <td><a href="{% url 'cart_remove' brick.id %}" class="remove-btn">Удалить</a></td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="total-price-block">Итого: {{ cart.get_total_price }} руб.</div>
+            <div style="text-align: right; margin-top: 20px;">
+                <a href="/" class="action-btn" style="background-color: #7f8c8d; margin-right: 10px;">Продолжить покупки</a>
+                <!-- Кнопка теперь вызывает открытие формы -->
+                <button type="button" class="action-btn" onclick="showOrderForm()" id="checkout-btn">Оформить заказ</button>
+            </div>
+
+            <!-- Скрытая форма заказа, которая появится после клика -->
+            <div id="order-form-block" style="display: none; margin-top: 35px; border-top: 2px solid #edf2f7; padding-top: 25px; text-align: left; max-width: 450px; margin-left: auto; background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); height: auto !important; overflow: visible !important;">
+
+                <h3 style="color: #2c3e50; margin-top: 0; margin-bottom: 20px; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                    📝 Контактные данные для заказа
+                </h3>
+
+                <form action="{% url 'cart_checkout' %}" method="post" style="display: flex; flex-direction: column; gap: 16px;">
+                    {% csrf_token %}
+
+                    <div>
+                        <label style="font-size: 14px; font-weight: bold; color: #475569; display: block; margin-bottom: 6px;">Ваше имя:</label>
+                        <input type="text" name="client_name" placeholder="Максим" required style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 15px; background: white; transition: border 0.2s;">
+                    </div>
+
+                    <div>
+                        <label style="font-size: 14px; font-weight: bold; color: #475569; display: block; margin-bottom: 6px;">Телефон:</label>
+                        <input type="tel" name="client_phone" placeholder="+7 (999) 999-99-99" required style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 15px; background: white; transition: border 0.2s;">
+                    </div>
+
+                    <!-- Большая зеленая кнопка подтверждения -->
+                    <button type="submit" style="width: 100%; background-color: #2ecc71 !important; border: none; color: white; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2); transition: background 0.2s;">
+                        🚀 Подтвердить заказ на {{ cart.get_total_price }} руб.
+                    </button>
+                </form>
+            </div>
+
+            <!-- Маленький скрипт остается без изменений -->
+            <script>
+                function showOrderForm() {
+                    document.getElementById('order-form-block').style.display = 'block';
+                    document.getElementById('checkout-btn').style.display = 'none';
+                }
+            </script>
+
+            <!-- Маленький скрипт для открытия формы -->
+            <script>
+                function showOrderForm() {
+                    document.getElementById('order-form-block').style.display = 'block';
+                    document.getElementById('checkout-btn').style.display = 'none'; // прячем старую кнопку
+                }
+            </script>
+        {% else %}
+            <p>Ваша корзина пуста. <a href="/">Перейти к покупкам</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>

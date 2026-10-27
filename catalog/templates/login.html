@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в систему</title>
+    <style>
+        body { background-color: #f5f7fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
+        .auth-card { background: white; padding: 40px; border-radius: 12px; border: 2px solid #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.08); max-width: 400px; width: 100%; text-align: center; }
+        .auth-card h2 { color: #2c3e50; margin-bottom: 25px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { font-size: 14px; font-weight: bold; color: #475569; display: block; margin-bottom: 6px; }
+        .input-group input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 15px; }
+        .auth-btn { width: 100%; background-color: #2980b9 !important; border: none; color: white; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .auth-btn:hover { background-color: #2471a3 !important; }
+        .switch-link { display: inline-block; margin-top: 15px; color: #2980b9; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h2>Войти на сайт</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <label>Имя пользователя:</label>
+                <input type="text" name="username" required placeholder="admin">
+            </div>
+            <div class="input-group">
+                <label>Пароль:</label>
+                <input type="password" name="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="auth-btn">Войти</button>
+        </form>
+        <a href="{% url 'register' %}" class="switch-link">Ещё нет аккаунта? Зарегистрироваться</a>
+    </div>
+</body>
+</html>

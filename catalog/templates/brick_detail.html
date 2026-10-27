@@ -23,10 +23,14 @@
                 <img src="{{ brick.image.url }}" alt="{{ brick.name }}" class="detail-img" style="max-height: 220px; width: auto; border-radius: 8px;">
             </div>
 
+            {% if "картон" in brick.name.lower %}
+            <h2 class="detail-title" style="font-size: 1.6rem; margin-bottom: 5px;">{{ brick.name }}</h2>
+        {% else %}
             <h2 class="detail-title" style="font-size: 1.6rem; margin-bottom: 5px;">Шамотный кирпич {{ brick.name }}</h2>
+        {% endif %}
 
             <div class="detail-meta" style="padding: 10px; margin-bottom: 10px;">
-                <p style="margin: 0 0 5px 0;"><strong>Размер:</strong> 230х114х65 мм</p>
+                <p style="margin: 0 0 5px 0;"><strong>Размер:</strong> {{ brick.size }}</p>
                 <div class="detail-price" style="font-size: 1.1rem;">Цена: <span>{{ brick.price }} руб./шт.</span></div>
             </div>
 
@@ -47,10 +51,14 @@
                     <p style="color: #666; font-size: 0.85rem; margin-bottom: 5px;">Количество кирпичей:</p>
                     <input type="number" id="brick-count" name="quantity" class="calc-input" placeholder="Например: 100" min="1" required oninput="calculateMixture()">
 
-                    <div class="calc-result" style="padding: 8px; font-size: 1rem; margin-bottom: 10px;">
-                        Необходимо смеси: <span id="mix-result">0</span> кг.
+                    {% if "картон" not in brick.name.lower %}
+                        <div class="calc-result" style="padding: 8px; font-size: 1rem; margin-bottom: 10px;">
+                            Необходимо смеси: <span id="mix-result">0</span> кг.
+                        </div>
+                    {% endif %}
                         <input type="hidden" id="mix-weight-hidden" name="mixture_weight" value="0">
-                    </div>
+
+
 
                     <span id="brick-price" style="display: none;">{{ brick.price }}</span>
                     <div style="padding: 8px; font-size: 1.1rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px;">

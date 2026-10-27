@@ -96,6 +96,15 @@
                     <div id="read-more-btn" onclick="expandText()" style="color: #2980b9; font-size: 14px; font-weight: bold; margin-top: 8px; cursor: pointer;">Читать полностью...</div>
                 </div>
 
+                <form action="{% url 'cart_add' brick.id %}" method="post" style="margin-top: 20px; display: flex; align-items: center; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    {% csrf_token %}
+                    <label style="font-size: 14px; font-weight: bold; color: #64748b; margin-right: 10px;">Кол-во:</label>
+                    <input type="number" name="quantity" value="1" min="1" style="padding: 8px; width: 70px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 15px; font-weight: bold; text-align: center; margin-right: 15px;">
+                    <button type="submit" style="background-color: #2ecc71 !important; border: none; color: white; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px; flex-grow: 1; transition: background 0.2s;">
+                        Добавить в корзину 🛒
+                    </button>
+                </form>
+
                 <!-- Синяя кнопка «Рассчитать товар», которая ведет на калькулятор -->
                 <a href="{% url 'brick_detail' brick.id %}" style="background-color: #2980b9 !important; margin-top: 25px !important; text-decoration: none; display: block; text-align: center; color: white; padding: 12px; border-radius: 6px; font-weight: bold; transition: background 0.2s;">
                     🧮 Рассчитать товар / Быстрый заказ

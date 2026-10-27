@@ -20,6 +20,7 @@ from catalog import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
@@ -27,6 +28,14 @@ urlpatterns = [
     path('brick/<int:brick_id>/', views.brick_detail, name='brick_detail'),
     path('brick/<int:brick_id>/order/', views.create_order_view, name='create_order'),
     path('brick/<int:brick_id>/description/', views.brick_description_views, name='brick_description'),
+    path('cart/', views.cart_detail, name='cart_detail'),
+    path('cart/add/<int:brick_id>/', views.cart_add, name='cart_add'),
+    path('cart/remove/<int:brick_id>/', views.cart_remove, name='cart_remove'),
+    path('cart/checkout/', views.cart_checkout, name='cart_checkout'),
+    path('login/', views.login_view, name='login'),
+    path('register/', views.register_view, name='register'),
+    path('logout/', views.logout_view, name='logout'),
 ]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
